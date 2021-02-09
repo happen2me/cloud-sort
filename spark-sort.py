@@ -23,7 +23,7 @@ print("len(result): {}".format(len(result)))
 print("type(result[0]): {}".format(type(result[0])))
 print("len(result[0]): {}".format(len(result[0])))
 
-with open("sorted.dat", "ab") as result_file:
+with open("sorted.dat", "wb") as result_file:
     for output in result:
         result_file.write(output)
 # sorted_op.saveAsSequenceFile("sorted.dat")
