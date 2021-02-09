@@ -58,9 +58,9 @@ with open(output_path, "wb") as result_file:
         result_file.write(output)
 
 # write to s3
-data = open(output_path, 'rb')
-s3 = boto3.resource('s3')
-s3.Bucket(output_bucket_name).put_object(Key=output_path, Body=result_file)
+with open(output_path, 'rb') as data
+    s3 = boto3.resource('s3')
+    s3.Bucket(output_bucket_name).put_object(Key=output_path, Body=data)
 
 # sorted_op.saveAsSequenceFile("sorted.dat")
 # sortBy(lambda r: r[0:10])
