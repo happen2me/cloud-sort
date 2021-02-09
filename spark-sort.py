@@ -18,10 +18,10 @@ start = time.time()
 sorted_op = input_file.map(lambda line: (line[:10], line[10:100]))\
     .sortByKey()\
     .map(lambda item: item[0]+item[1])
-end = time.time()
-print("Time elapse: {}".format(end - start))
-
 result = sorted_op.collect()
+end = time.time()
+print("Time elapse in seconds: {}".format(end - start))
+
 print("type(result): {}".format(type(result)))
 print("len(result): {}".format(len(result)))
 print("type(result[0]): {}".format(type(result[0])))
