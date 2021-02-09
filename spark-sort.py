@@ -1,3 +1,4 @@
+import time
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import functions as F
 
@@ -13,9 +14,12 @@ input_file = sc.binaryRecords(input_bucket+input_path, 100)
 print("len first: {}".format(len(input_file.first())))
 print("input count: " + str(input_file.count()))
 
+start = time.time()
 sorted_op = input_file.map(lambda line: (line[:10], line[10:100]))\
     .sortByKey()\
     .map(lambda item: item[0]+item[1])
+end = time.time()
+print("Time elapse: {}".format(end - start))
 
 result = sorted_op.collect()
 print("type(result): {}".format(type(result)))
