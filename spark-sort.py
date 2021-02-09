@@ -52,12 +52,15 @@ print("len(result): {}".format(len(result)))
 print("type(result[0]): {}".format(type(result[0])))
 print("len(result[0]): {}".format(len(result[0])))
 
-# write to s3
-s3 = boto3.resource('s3')
+
 with open(output_path, "wb") as result_file:
     for output in result:
         result_file.write(output)
-    s3.Bucket(output_bucket_name).put_object(Key=output_path, Body=result_file)
+
+# write to s3
+data = open(output_path, 'rb')
+s3 = boto3.resource('s3')
+s3.Bucket(output_bucket_name).put_object(Key=output_path, Body=result_file)
 
 # sorted_op.saveAsSequenceFile("sorted.dat")
 # sortBy(lambda r: r[0:10])
