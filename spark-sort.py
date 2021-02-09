@@ -3,10 +3,13 @@ import os
 import configparser
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import functions as F
+import boto3
 
-input_bucket = ""
-input_path = "unsorted.dat"
-# input_bucket = "s3://unsorted-bucket/"
+input_bucket = "s3://unsorted-bucket/"
+input_path = "unsorted-mini.dat"
+output_bucket = "s3://unsorted-bucket/"
+output_path = "sorted.dat"
+# input_bucket = ""
 # input_path = "unsorted.dat"
 
 app_name = "spark"
@@ -14,6 +17,7 @@ app_name = "spark"
 conf = SparkConf().setAppName(app_name)
 sc = SparkContext()
 
+# uncomment this block if run local
 # aws_profile = 'default'
 # config = configparser.ConfigParser()
 # config.read(os.path.expanduser("~/.aws/credentials"))
@@ -48,8 +52,12 @@ print("len(result): {}".format(len(result)))
 print("type(result[0]): {}".format(type(result[0])))
 print("len(result[0]): {}".format(len(result[0])))
 
-with open("sorted.dat", "wb") as result_file:
+# write to s3
+s3 = boto3.resource('s3')
+with open(input_bucket+output_path, "wb") as result_file:
     for output in result:
         result_file.write(output)
+    s3.Bucket(output_bucket).put_object(Key=output_path, Body=result_file)
+
 # sorted_op.saveAsSequenceFile("sorted.dat")
 # sortBy(lambda r: r[0:10])
