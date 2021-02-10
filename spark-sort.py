@@ -56,6 +56,7 @@ input_file = sc.binaryRecords(input_bucket+input_path, 100)
 input_file = input_file.map(lambda line: (line[:10], line[10:100]))
 input_file = input_file.partitionBy(10)
 
+logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(message)s')
 logging.info("input file patition num: {}".format(len(input_file.glom().collect())))
 logging.debug("len first: {}".format(len(input_file.first())))
 logging.debug("type first: {}".format(type(input_file.first())))
