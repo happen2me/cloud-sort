@@ -56,13 +56,13 @@ input_file = sc.binaryRecords(input_bucket+input_path, 100)
 input_file = input_file.map(lambda line: (line[:10], line[10:100]))
 input_file = input_file.partitionBy(10)
 
-logging.basicConfig(level=logging.DEBUG, format='%(levelname)s - %(message)s')
-logging.info("input file patition num: {}".format(len(input_file.glom().collect())))
-logging.debug("len first: {}".format(len(input_file.first())))
-logging.debug("type first: {}".format(type(input_file.first())))
-logging.debug("len first[0]: {}".format(len(input_file.first()[0])))
-logging.debug("type first[0]: {}".format(type(input_file.first()[0])))
-logging.info("input count: " + str(input_file.count()))
+# logging.basicConfig(level=print)
+print("input file patition num: {}".format(len(input_file.glom().collect())))
+print("len first: {}".format(len(input_file.first())))
+print("type first: {}".format(type(input_file.first())))
+print("len first[0]: {}".format(len(input_file.first()[0])))
+print("type first[0]: {}".format(type(input_file.first()[0])))
+print("input count: " + str(input_file.count()))
 
 start = time.time()
 # input_file.map(lambda line: (line[:10], line[10:100]))\
@@ -70,12 +70,12 @@ sorted_op = input_file.sortByKey()\
     .map(lambda item: item[0]+item[1])
 result = sorted_op.collect()
 end = time.time()
-logging.info("Time elapse in seconds: {}".format(end - start))
+print("Time elapse in seconds: {}".format(end - start))
 
-logging.debug("type(result): {}".format(type(result)))
-logging.debug("len(result): {}".format(len(result)))
-logging.debug("type(result[0]): {}".format(type(result[0])))
-logging.debug("len(result[0]): {}".format(len(result[0])))
+print("type(result): {}".format(type(result)))
+print("len(result): {}".format(len(result)))
+print("type(result[0]): {}".format(type(result[0])))
+print("len(result[0]): {}".format(len(result[0])))
 
 
 with open(output_path, "wb") as result_file:
